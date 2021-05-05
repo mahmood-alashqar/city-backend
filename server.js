@@ -2,12 +2,9 @@ const express = require('express');
 const weatherData = require('./assets/weather.json');
 const cors = require('cors');
 require('dotenv').config();
-const PORT = process.env.PORT || 3030;
+// const PORT = process.env.PORT;
 const app = express()
  app.use(cors());
-
-
-
 
 app.get('/', function (req, res) {
   res.send('Hello World')
@@ -30,7 +27,5 @@ app.get('/', function (req, res) {
 
  } 
 
-app.listen(PORT, () => {
-    console.log(`server is ${PORT}`);
-})
+app.listen(3001)
 //
