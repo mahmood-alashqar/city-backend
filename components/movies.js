@@ -1,27 +1,54 @@
+const { response } = require('express');
 const superagent = require('superagent');
 require('dotenv').config();
 
 
-const handelMovies =(req , res) => {
-    try {
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIES_KEY}&query=${req.query.query}`;
-    console.log(process.env.REACT_APP_MOVIES_KEY);
-    superagent.get(url).then( data => {
-        const moviesData = data.body.results.map( data1 => new Movies(data1));
-        res.send(moviesData);
-        console.log(data.body.results);
+const stolenData = {};
 
-        })
- 
-  }
-     catch (error) {
-      const moviesData = data.body.results.map( data1 => new Movies(data1));
-        res.send(moviesData);
-      
+const handelMovies =(req , res) => {
+    
+        // console.log(process.env.REACT_APP_MOVIES_KEY);
+        const url = `https://api.themoviedb.org/3/search/movie`; 
+        const movieQuery = req.query.querySearch || 'paris';
+    const paraQuery = 
+    {
+        query: movieQuery,
+        api_key: process.env.REACT_APP_MOVIES_KEY,
     }
+    
+if (stolenData[movieQuery])
+{
+ res.send(stolenData[movieQuery]);
+ console.log('in my cached');
+}
+else 
+      { try { superagent.get(url).query(paraQuery).then( data => {
+            const moviesData = data.body.results.map( data1 => new Movies(data1));
+            res.send(moviesData);
+            stolenData[movieQuery]=moviesData;
+            console.log('!in my cached');
+    
+            })
+     
+      }
+         catch (error) {
+          const moviesData = data.body.results.map( data1 => new Movies(data1));
+            res.send(moviesData);
+          
+        }
+
+
+      }
+
+
+    
+
+    }
+ 
+
   
     
-  }
+  
   class Movies{
     constructor(data){
      this.title= data.title ;
