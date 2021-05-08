@@ -40,7 +40,7 @@ else
     // res.send(arrayOfData);
     // req.send(`all good`);
   }
-  
+}
   class Weather
   {
       constructor (data){
