@@ -3,16 +3,31 @@ const superagent = require('superagent');
 const WEATHER_BIT_KEY = process.env.WEATHER_BIT_KEY;
 require('dotenv').config();
 
-
+const stolenData = {};
 const handelWeather =(req, res) => {
     // const arrayOfData = weatherData.data.map( data => new Weather(data));
+      // const weatherBitUrl = `https://api.weatherbit.io/v2.0/forecast/daily?key=6317595787be45b99691493bd98e0eee&lat=32.33&lon=33.55`;
+      const url = `https://api.weatherbit.io/v2.0/forecast/daily`;
+      const key = `weather-${req.query.lat}${req.query.lon}`;
+      const queryParams={
+          key:process.env.WEATHER_API_KEY ,
+          lat:req.query.lat,
+          lon:req.query.lon,
+          lang:'en',
+          days:5
+      }
+         
+if (stolenData[key])
+{
+ res.send(stolenData[movieQuery]);
+ console.log('in my cached');
+}
+else 
+      {
     try {
-      const weatherBitUrl = `https://api.weatherbit.io/v2.0/forecast/daily?key=6317595787be45b99691493bd98e0eee&lat=32.33&lon=33.55`;
-    console.log(weatherBitUrl);
-    console.log(req.query.lon);
-
     superagent.get(weatherBitUrl).then(weatherBitUrl =>{
       const dataFRomTheUrl = weatherBitUrl.body.data.map(theSendData => new Weather(theSendData));
+      stolenData[key]=dataFRomTheUrl;
       res.send(dataFRomTheUrl);
 
     })
