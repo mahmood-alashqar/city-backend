@@ -14,6 +14,7 @@ const handelMovies =(req , res) => {
     {
         query: movieQuery,
         api_key: process.env.REACT_APP_MOVIES_KEY,
+        
     }
     
 if (stolenData[movieQuery])
